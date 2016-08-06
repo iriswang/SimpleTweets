@@ -21,7 +21,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp"
+        android:textStyle="bold"/>
 
     <TextView
         android:layout_width="wrap_content"
