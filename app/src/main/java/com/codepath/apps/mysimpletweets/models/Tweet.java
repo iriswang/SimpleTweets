@@ -1,7 +1,11 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+
+import java.util.ArrayList;
 
 /**
  * Created by iris on 8/6/16.
@@ -25,7 +29,6 @@ public class Tweet {
         return user;
     }
 
-
     public String getCreatedAt() {
         return createdAt;
     }
@@ -41,6 +44,22 @@ public class Tweet {
             e.printStackTrace();
         }
         return tweet;
+    }
+
+    public static ArrayList<Tweet> fromJsonArray(JSONArray jsonArray) {
+        ArrayList<Tweet> tweets = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                Tweet tweet = Tweet.fromJson(jsonArray.getJSONObject(i));
+                if (tweet != null) {
+                    tweets.add(tweet);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return tweets;
     }
 
 }
