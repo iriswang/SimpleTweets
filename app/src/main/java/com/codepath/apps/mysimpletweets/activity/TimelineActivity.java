@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,14 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(_linearLayoutManager);
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setAdapter(adapter);
+
+        FloatingActionButton fabAddTweet = (FloatingActionButton) findViewById(R.id.fabAddTweet);
+        fabAddTweet.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                handleNewTweetActivity();
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -165,16 +174,12 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.timeline, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_new_tweet:
-                handleNewTweetActivity();
-                return true;
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
