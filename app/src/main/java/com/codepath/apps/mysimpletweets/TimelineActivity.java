@@ -35,16 +35,26 @@ public class TimelineActivity extends AppCompatActivity {
         aTweets = new TweetsArrayAdapter(this, tweets);
         lvTweets.setAdapter(aTweets);
         client = TwitterApplication.getRestClient();
-        getTimeline();
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+                loadMoreTweets(totalItemsCount);
+                return true;
+            }
+        });
+        getInitialHomeTimeline(25);
     }
 
-    private void getTimeline() {
-        client.getHomeTimeline(
-            new JsonHttpResponseHandler() {
+    public void loadMoreTweets(int itemsCount) {
+        if (tweets.size() == 0) {
+            getInitialHomeTimeline(itemsCount);
+        } else {
+            long lastTweetId = tweets.get(tweets.size() - 1).getUid();
+            client.getMoreTweets(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     aTweets.addAll(Tweet.fromJsonArray(response));
-                    Log.d("Debug", aTweets.toString());
+                    Log.d("LOAD MORE TWEETS", aTweets.toString());
                 }
 
                 @Override
@@ -52,8 +62,26 @@ public class TimelineActivity extends AppCompatActivity {
                     JSONObject errorResponse) {
                     Log.d("DEBUG", errorResponse.toString());
                 }
-            }
-        );
+            }, lastTweetId, itemsCount);
+        }
+    }
+
+
+    private void getInitialHomeTimeline(int itemsCount) {
+        client.getInitialHomeTimeline(
+            new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    aTweets.addAll(Tweet.fromJsonArray(response));
+                    Log.d("INTIAL LOAD", aTweets.toString());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                    JSONObject errorResponse) {
+                    Log.d("DEBUG", errorResponse.toString());
+                }
+            }, itemsCount);
     }
 
 }
