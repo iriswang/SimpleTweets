@@ -10,9 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
-import com.codepath.apps.mysimpletweets.EndlessScrollListener;
+import com.codepath.apps.mysimpletweets.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsAdapter;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
@@ -37,7 +36,8 @@ public class TimelineActivity extends AppCompatActivity {
     private User user;
     private final int REQUEST_CODE = 20;
     private TweetsAdapter adapter;
-
+    private RecyclerView rvTweets;
+    private LinearLayoutManager _linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,27 +49,30 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         View view = findViewById(R.id.rvTweets);
-        RecyclerView rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        rvTweets = (RecyclerView) findViewById(R.id.rvTweets);
+        _linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(_linearLayoutManager);
         adapter = new TweetsAdapter(this, tweets);
         rvTweets.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        setUpScrollListener();
+        setUpScrollListener();
         fetchUserInfo();
     }
 
-//    public void setUpScrollListener() {
-//        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-//            @Override
-//            public boolean onLoadMore(int page, int totalItemsCount) {
-//                loadMoreTweets(totalItemsCount);
-//                return true;
-//            }
-//        });
-//
-//    }
+    public void setUpScrollListener() {
+        rvTweets.addOnScrollListener(new EndlessRecyclerViewScrollListener(_linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadMoreTweets(totalItemsCount);
+            }
+        });
+
+
+    }
 
     public void fetchUserInfo() {
         client.getUserCreditentials(new JsonHttpResponseHandler(){
@@ -140,8 +143,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // REQUEST_CODE is defined above
-//        setUpScrollListener();
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
             String status = data.getExtras().getString("tweet");
             // Toast the name to display temporarily on screen
