@@ -92,5 +92,14 @@
         android:layout_alignRight="@+id/etEditStatus"
         android:layout_alignEnd="@+id/etEditStatus"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/tvCharactersLeft"
+        android:layout_alignTop="@+id/btnCancel"
+        android:padding="5dp"
+        android:layout_toLeftOf="@+id/btnCancel"/>
+
 
 </RelativeLayout>
