@@ -4,5 +4,10 @@
     <string name="app_name">Simple Tweets</string>
     <string name="login_label">Log in</string>
     <string name="title_activity_timeline">Home Timeline</string>
+    <string name="new_tweet">New Tweet</string>
+    <string name="title_activity_new_tweet">New Tweet</string>
+    <string name="tweet_hint">Enter your tweet here...</string>
+    <string name="cancel">Cancel</string>
+    <string name="tweet">Tweet</string>
 
 </resources>
