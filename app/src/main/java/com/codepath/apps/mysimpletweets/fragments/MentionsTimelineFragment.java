@@ -22,6 +22,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class MentionsTimelineFragment extends TweetsListFragment {
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
             getInitialHomeTimeline(itemsCount);
         } else {
             long lastTweetId = tweets.get(tweets.size() - 1).getUid();
-            client.getMoreMentionTweets(new JsonHttpResponseHandler() {
+            client.getMoreUserTweets(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     int size = adapter.getItemCount();
@@ -68,7 +69,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
                     JSONObject errorResponse) {
                     Log.d("DEBUG", errorResponse.toString());
                 }
-            }, lastTweetId, itemsCount);
+            }, user.getUid(), lastTweetId, itemsCount);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -37,8 +38,15 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
+    public void onProfileView(MenuItem mi) {
+        //Launch Profile View
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.timeline_menu, menu);
         return true;
     }
 
