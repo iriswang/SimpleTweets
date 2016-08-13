@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.codepath.apps.mysimpletweets.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsAdapter;
+import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.activity.NewTweetActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
@@ -59,7 +60,6 @@ public abstract class TweetsListFragment extends Fragment {
                 handleNewTweetActivity();
             }
         });
-        setUpScrollListener();
         return v;
     }
 
@@ -70,6 +70,9 @@ public abstract class TweetsListFragment extends Fragment {
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(getActivity(), tweets);
         _linearLayoutManager = new LinearLayoutManager(getActivity());
+        client = TwitterApplication.getRestClient();
+        getInitialHomeTimeline(25);
+        fetchUserInfo();
     }
 
     public void addAll(List<Tweet> newTweets) {
@@ -110,10 +113,11 @@ public abstract class TweetsListFragment extends Fragment {
     }
 
     public void fetchUserInfo() {
-        client.getUserCreditentials(new JsonHttpResponseHandler() {
+        client.getUserCredentials(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJson(response);
+                setUpScrollListener();
                 Log.d("test", user.toString());
             }
 

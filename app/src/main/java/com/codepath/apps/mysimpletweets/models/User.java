@@ -1,8 +1,12 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+
+
+import java.util.ArrayList;
 
 /**
  * Created by iris on 8/6/16.
@@ -13,6 +17,8 @@ public class User {
     long uid;
     String screenName;
     String profileImageUrl;
+    long followerCount;
+    long followingCount;
 
     public User() {
 
@@ -34,6 +40,14 @@ public class User {
         return profileImageUrl;
     }
 
+    public long getFollowerCount() {
+        return followerCount;
+    }
+
+    public long getFollowingCount() {
+        return followingCount;
+    }
+
     public static User fromJson(JSONObject json) {
         User u = new User();
         try {
@@ -41,10 +55,33 @@ public class User {
             u.uid = json.getLong("id");
             u.screenName = json.getString("screen_name");
             u.profileImageUrl = json.getString("profile_image_url");
+            if (json.has("followers_count")) {
+                u.followerCount = json.getLong("followers_count");
+            }
+            if (json.has("friends_count")) {
+                u.followingCount = json.getLong("friends_count");
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return u;
     }
+
+    public static ArrayList<User> fromJsonArray(JSONArray jsonArray) {
+        ArrayList<User> users = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                User user = User.fromJson(jsonArray.getJSONObject(i));
+                if (user != null) {
+                    users.add(user);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        return users;
+    }
+
 
 }
