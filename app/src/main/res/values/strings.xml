@@ -9,5 +9,7 @@
     <string name="tweet_hint">Enter your tweet here...</string>
     <string name="cancel">Cancel</string>
     <string name="tweet">Tweet</string>
+    <string name="profile">Profile</string>
+    <string name="title_activity_profile">Profile</string>
 
 </resources>
