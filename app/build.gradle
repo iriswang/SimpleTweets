@@ -42,4 +42,5 @@ dependencies {
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'jp.wasabeef:picasso-transformations:2.1.0'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
