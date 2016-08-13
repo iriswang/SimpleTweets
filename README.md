@@ -46,7 +46,7 @@ The following **bonus** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-![Video Walkthrough](simple_tweets_walkthrough.mp4)
+![Video Walkthrough](simple_tweets_walkthrough.gif)
 
 ## Notes
 
