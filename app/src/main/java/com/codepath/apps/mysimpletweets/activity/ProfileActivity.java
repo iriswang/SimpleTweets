@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
@@ -12,15 +14,13 @@ import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ProfileActivity extends AppCompatActivity {
     private TwitterClient _client;
@@ -49,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     _user = User.fromJson(response);
-                    getSupportActionBar().setTitle("@" + _user.getScreenName());
+                    populateUserInfo();
                     Log.d("TEST MY PROFILE: ", _user.toString());
                 }
 
@@ -64,8 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     _user = User.fromJsonArray(response).get(0);
+                    populateUserInfo();
                     Log.d("TEST MY PROFILE: ", _user.toString());
-                    getSupportActionBar().setTitle(_user.getScreenName());
                     super.onSuccess(statusCode, headers, response);
                 }
 
@@ -77,4 +77,21 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
     }
+
+    private void populateUserInfo() {
+        getSupportActionBar().setTitle(_user.getScreenName());
+        TextView tvFollower = (TextView) findViewById(R.id.tvFollowers);
+        tvFollower.setText(String.format("%d FOLLOWERS", _user.getFollowerCount()));
+        TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
+        tvFollowing.setText(String.format("%d FOLLOWING", _user.getFollowingCount()));
+        TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvDescription.setText(_user.getDescription());
+        TextView tvName = (TextView) findViewById(R.id.tvName);
+        tvName.setText(_user.getName());
+        ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        Picasso.with(getApplicationContext()).load(_user.getProfileImageUrl())
+               .transform(new RoundedCornersTransformation(3, 3)).into(ivProfileImage);
+    }
+
+
 }

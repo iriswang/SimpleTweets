@@ -19,6 +19,7 @@ public class User {
     String profileImageUrl;
     long followerCount;
     long followingCount;
+    String description;
 
     public User() {
 
@@ -38,6 +39,10 @@ public class User {
 
     public String getProfileImageUrl() {
         return profileImageUrl;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public long getFollowerCount() {
@@ -60,6 +65,9 @@ public class User {
             }
             if (json.has("friends_count")) {
                 u.followingCount = json.getLong("friends_count");
+            }
+            if (json.has("description")) {
+                u.description = json.getString("description");
             }
         } catch (JSONException e) {
             e.printStackTrace();
