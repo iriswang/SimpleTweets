@@ -3,8 +3,10 @@ package com.codepath.apps.mysimpletweets.utils;
 import android.text.format.DateUtils;
 
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -14,7 +16,6 @@ public class ConvertJsonDate {
     private  static final int MINUTE_IN_SECONDS = 60;
     private  static final int HOUR_IN_SECONDS = 60 * MINUTE_IN_SECONDS;
     private static final int DAY_IN_SECONDS =  24 * HOUR_IN_SECONDS;
-    private static final int WEEK_IN_SECONDS =  7 * DAY_IN_SECONDS;
 
     public static String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
@@ -26,10 +27,16 @@ public class ConvertJsonDate {
             long dateMillis = sf.parse(rawJsonDate).getTime();
             long currTimeMillis = System.currentTimeMillis();
             long timeDiff = (currTimeMillis - dateMillis) / 1000;
-            if (timeDiff / WEEK_IN_SECONDS > 0) {
-                return String.format("%dw", timeDiff / WEEK_IN_SECONDS);
-            } else if (timeDiff / DAY_IN_SECONDS > 0 ) {
-                return String.format("%dd", timeDiff / DAY_IN_SECONDS);
+            if (timeDiff / DAY_IN_SECONDS > 0 ) {
+                Date tweetDate = new Date(dateMillis);
+                Date currDate = new Date(currTimeMillis);
+                SimpleDateFormat dateFormat;
+                if (tweetDate.getYear() == currDate.getYear()) {
+                    dateFormat = new SimpleDateFormat("MMM dd");
+                } else {
+                    dateFormat = new SimpleDateFormat("dd MMM yy");
+                }
+                return dateFormat.format(tweetDate);
             } else if (timeDiff / HOUR_IN_SECONDS > 0 ){
                 return String.format("%dh", timeDiff / HOUR_IN_SECONDS);
             } else if (timeDiff / MINUTE_IN_SECONDS > 0){
