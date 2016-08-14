@@ -1,6 +1,7 @@
 package com.codepath.apps.mysimpletweets.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +36,8 @@ public class NewTweetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_tweet);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.mipmap.ic_action_close);
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         setUpViews();
     }
@@ -59,18 +63,15 @@ public class NewTweetActivity extends AppCompatActivity {
             }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tvCharactersLeft.setText(Integer.toString(140 - s.length()));
-            }
-        });
-
-
-        Button cancelButton = (Button) findViewById(R.id.btnCancel);
-            cancelButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    setResult(RESULT_CANCELED);
-                    finish();
+                int charactersLeft = 140 - s.length();
+                if (charactersLeft < 0) {
+                    tvCharactersLeft.setTextColor(Color.RED);
+                } else {
+                    tvCharactersLeft.setTextColor(getResources().getColor(
+                        R.color.grayTextColor));
                 }
+                tvCharactersLeft.setText(Integer.toString(charactersLeft));
+            }
         });
 
         Button tweetButton = (Button) findViewById(R.id.btnTweet);
@@ -83,10 +84,14 @@ public class NewTweetActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
     }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home) {
+            setResult(RESULT_CANCELED);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

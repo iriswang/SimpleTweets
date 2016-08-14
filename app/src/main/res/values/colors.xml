@@ -4,4 +4,5 @@
     <color name="primaryColor">#00ACED</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="grayTextColor">#b3b3b3</color>
 </resources>

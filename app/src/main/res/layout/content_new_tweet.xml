@@ -17,15 +17,18 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/ivProfileImage"
-        android:layout_margin="10dp"/>
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorEditItemDivider"
-        android:layout_below="@+id/ivProfileImage"
         android:id="@+id/divider"
-        android:layout_margin="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -72,19 +75,7 @@
         android:layout_toEndOf="@+id/ivProfileImage"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="@string/cancel"
-        android:id="@+id/btnCancel"
-        android:layout_alignTop="@+id/btnTweet"
-        android:layout_toLeftOf="@+id/btnTweet"
-        android:layout_toStartOf="@+id/btnTweet"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:background="@drawable/cancel_button"/>
-
-    <Button
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="30dp"
         android:background="@drawable/tweet_button"
         android:text="@string/tweet"
@@ -92,7 +83,8 @@
         android:id="@+id/btnTweet"
         android:layout_below="@+id/etEditStatus"
         android:layout_alignRight="@+id/etEditStatus"
-        android:layout_alignEnd="@+id/etEditStatus"/>
+        android:layout_alignEnd="@+id/etEditStatus"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,9 +93,9 @@
         android:id="@+id/tvCharactersLeft"
         android:gravity="center"
         android:layout_gravity="center_vertical"
-        android:layout_toLeftOf="@id/btnCancel"
-        android:layout_alignTop="@id/btnCancel"
-        android:layout_alignBottom="@id/btnCancel"
+        android:layout_toLeftOf="@id/btnTweet"
+        android:layout_alignTop="@id/btnTweet"
+        android:layout_alignBottom="@id/btnTweet"
         android:padding="5dp"/>
 
 
