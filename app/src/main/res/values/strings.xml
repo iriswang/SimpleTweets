@@ -11,5 +11,7 @@
     <string name="tweet">Tweet</string>
     <string name="profile">Profile</string>
     <string name="title_activity_profile">Profile</string>
+    <string name="followers">FOLLOWERS</string>
+    <string name="following">FOLLOWING</string>
 
 </resources>

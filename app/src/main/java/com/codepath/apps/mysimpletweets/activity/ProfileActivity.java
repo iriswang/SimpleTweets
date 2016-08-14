@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         _client = TwitterApplication.getRestClient();
         long userId = getIntent().getLongExtra(UserTimelineFragment.USER_ID, -1);
         fetchUserInfo(userId);
@@ -80,11 +83,13 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateUserInfo() {
-        getSupportActionBar().setTitle(_user.getScreenName());
-        TextView tvFollower = (TextView) findViewById(R.id.tvFollowers);
-        tvFollower.setText(String.format("%d FOLLOWERS", _user.getFollowerCount()));
-        TextView tvFollowing = (TextView) findViewById(R.id.tvFollowing);
-        tvFollowing.setText(String.format("%d FOLLOWING", _user.getFollowingCount()));
+        getSupportActionBar().setTitle("@" + _user.getScreenName());
+        //Set following counts
+        TextView tvFollowerCount = (TextView) findViewById(R.id.tvFollowerCount);
+        tvFollowerCount.setText(Long.toString(_user.getFollowerCount()));
+        TextView tvFollowingCount = (TextView) findViewById(R.id.tvFollowingCount);
+        tvFollowingCount.setText(Long.toString(_user.getFollowingCount()));
+
         TextView tvDescription = (TextView) findViewById(R.id.tvDescription);
         tvDescription.setText(_user.getDescription());
         TextView tvName = (TextView) findViewById(R.id.tvName);
@@ -95,5 +100,11 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d("CALLING FOR USER: ", _user.getName());
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
