@@ -44,13 +44,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void fetchUserInfo(long userId) {
+        Log.d("FETCH_USER_INFO: ", Long.toString(userId));
         if (userId == -1 ) {
             _client.getUserCredentials(new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     _user = User.fromJson(response);
                     populateUserInfo();
-                    Log.d("TEST MY PROFILE: ", _user.toString());
+                    Log.d("TEST MY PROFILE: ", _user.getName());
                 }
 
                 @Override
@@ -91,6 +92,7 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
         Picasso.with(getApplicationContext()).load(_user.getProfileImageUrl())
                .transform(new RoundedCornersTransformation(3, 3)).into(ivProfileImage);
+        Log.d("CALLING FOR USER: ", _user.getName());
     }
 
 

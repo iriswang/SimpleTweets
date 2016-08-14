@@ -1,13 +1,17 @@
 package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mysimpletweets.activity.ProfileActivity;
+import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.utils.ConvertJsonDate;
 import com.squareup.picasso.Picasso;
@@ -70,7 +74,7 @@ public class TweetsAdapter extends
     @Override
     public void onBindViewHolder(TweetsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
 
         // Set item views based on your views and data model
         viewHolder.tvTimeStamp.setText(ConvertJsonDate.getRelativeTimeAgo(tweet.getCreatedAt()));
@@ -80,6 +84,15 @@ public class TweetsAdapter extends
         viewHolder.ivProfileImage.setImageResource(android.R.color.transparent);
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl())
             .transform(new RoundedCornersTransformation(3, 3)).into(viewHolder.ivProfileImage);
+
+        viewHolder.ivProfileImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), ProfileActivity.class);
+                i.putExtra(UserTimelineFragment.USER_ID, tweet.getUser().getUid());
+                getContext().startActivity(i);
+            }
+        });
 
     }
 
