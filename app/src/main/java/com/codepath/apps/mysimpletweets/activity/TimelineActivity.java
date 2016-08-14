@@ -15,13 +15,8 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
-import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
-import com.codepath.apps.mysimpletweets.models.User;
 
 public class TimelineActivity extends AppCompatActivity {
-
-    private TweetsListFragment _fragmentTweetsList;
-    private User _user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +26,9 @@ public class TimelineActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_twitter_bird);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.viewpager);
         vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager()));
