@@ -13,29 +13,28 @@
     tools:showIn="@layout/activity_new_tweet"
     tools:context="com.codepath.apps.mysimpletweets.activity.NewTweetActivity">
 
-
-
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/ivProfileImage"
-        android:padding="10dp"/>
+        android:layout_margin="10dp"/>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorEditItemDivider"
-        android:layout_alignBottom="@+id/ivProfileImage"
+        android:layout_below="@+id/ivProfileImage"
         android:id="@+id/divider"
         android:layout_margin="5dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvName"
         android:layout_alignTop="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
 
     <TextView
@@ -59,6 +58,7 @@
         android:hint="@string/tweet_hint"
         android:background="@android:color/transparent"
         android:textSize="15sp"
+        android:textColor="@color/black"
         android:layout_below="@+id/divider"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
@@ -73,21 +73,23 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:text="@string/cancel"
         android:id="@+id/btnCancel"
-        android:background="@color/colorEditItemDivider"
         android:layout_alignTop="@+id/btnTweet"
         android:layout_toLeftOf="@+id/btnTweet"
         android:layout_toStartOf="@+id/btnTweet"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:background="@drawable/cancel_button"/>
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/tweet_button"
         android:text="@string/tweet"
+        android:textColor="@color/white"
         android:id="@+id/btnTweet"
-        android:background="@color/primaryColor"
         android:layout_below="@+id/etEditStatus"
         android:layout_alignRight="@+id/etEditStatus"
         android:layout_alignEnd="@+id/etEditStatus"/>
@@ -95,11 +97,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Characters Left"
         android:id="@+id/tvCharactersLeft"
-        android:layout_alignTop="@+id/btnCancel"
-        android:padding="5dp"
-        android:layout_toLeftOf="@+id/btnCancel"/>
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_toLeftOf="@id/btnCancel"
+        android:layout_alignTop="@id/btnCancel"
+        android:layout_alignBottom="@id/btnCancel"
+        android:padding="5dp"/>
 
 
 </RelativeLayout>

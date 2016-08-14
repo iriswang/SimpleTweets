@@ -2,4 +2,6 @@
 <resources>
     <color name="colorEditItemDivider">#CFD2D5</color>
     <color name="primaryColor">#00ACED</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
