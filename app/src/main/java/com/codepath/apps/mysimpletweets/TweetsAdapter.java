@@ -2,6 +2,8 @@ package com.codepath.apps.mysimpletweets;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
+import android.support.v7.view.menu.MenuView.ItemView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +33,8 @@ public class TweetsAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
 
+        ImageView ivRetweet;
+        TextView tvRetweetedBy;
         ImageView ivProfileImage;
         TextView tvUsername;
         TextView tvBody;
@@ -39,6 +43,8 @@ public class TweetsAdapter extends
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ivRetweet = (ImageView) itemView.findViewById(R.id.ivRetweetIcon);
+            tvRetweetedBy = (TextView) itemView.findViewById(R.id.tvRetweetedBy);
             ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
             tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
             tvBody = (TextView) itemView.findViewById(R.id.tvBody);
@@ -75,6 +81,14 @@ public class TweetsAdapter extends
     public void onBindViewHolder(TweetsAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         final Tweet tweet = mTweets.get(position);
+
+        if (tweet.isRetweetedStatus()) {
+            viewHolder.tvRetweetedBy.setText(String.format("%s Retweeted",
+                tweet.getRetweetedBy()));
+        } else {
+            viewHolder.tvRetweetedBy.setVisibility(View.GONE);
+            viewHolder.ivRetweet.setVisibility(View.GONE);
+        }
 
         // Set item views based on your views and data model
         viewHolder.tvTimeStamp.setText(ConvertJsonDate.getRelativeTimeAgo(tweet.getCreatedAt()));

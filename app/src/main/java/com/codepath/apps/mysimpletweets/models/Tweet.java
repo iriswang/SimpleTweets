@@ -1,5 +1,7 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +19,9 @@ public class Tweet {
     private User user;
     private String createdAt;
 
+    private boolean retweetedStatus;
+    private String retweetedBy;
+
     public String getBody() {
         return body;
     }
@@ -33,13 +38,30 @@ public class Tweet {
         return createdAt;
     }
 
+    public String getRetweetedBy() {
+        return retweetedBy;
+    }
+
+    public boolean isRetweetedStatus() {
+        return retweetedStatus;
+    }
+
     public static Tweet fromJson(JSONObject json) {
         Tweet tweet = new Tweet();
         try {
-            tweet.body = json.getString("text");
-            tweet.uid = json.getLong("id");
-            tweet.createdAt = json.getString("created_at");
-            tweet.user = User.fromJson(json.getJSONObject("user"));
+            JSONObject tweetJson;
+            if (json.has("retweeted_status")) {
+                tweet.retweetedStatus = true;
+                tweet.retweetedBy = json.getJSONObject("user").getString("name");
+                tweetJson = json.getJSONObject("retweeted_status");
+            } else {
+                tweet.retweetedStatus = false;
+                tweetJson = json;
+            }
+            tweet.body = tweetJson.getString("text");
+            tweet.uid = tweetJson.getLong("id");
+            tweet.createdAt = tweetJson.getString("created_at");
+            tweet.user = User.fromJson(tweetJson.getJSONObject("user"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -50,6 +72,7 @@ public class Tweet {
         ArrayList<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
+                JSONObject j = jsonArray.getJSONObject(i);
                 Tweet tweet = Tweet.fromJson(jsonArray.getJSONObject(i));
                 if (tweet != null) {
                     tweets.add(tweet);
